@@ -17,14 +17,37 @@ namespace Lab02
                 ddlBanh.Items.Add(new ListItem("Bánh bao", "01"));
                 ddlBanh.Items.Add(new ListItem("Bánh cam", "02"));
                 ddlBanh.Items.Add(new ListItem("Bánh mì", "03"));
-                ddlBanh.Items.Add(new ListItem("Bánh ú", "04"));
+                ddlBanh.Items.Add(new ListItem("Bánh xe", "04"));
             }
         }
 
         protected void btnThem_Click(object sender, EventArgs e)
         {
-            string data = $"{ddlBanh.SelectedItem.Text} ({txtSoLuong.Text})";
-            lstBanh.Items.Add(data);
+            bool checkExist = false;
+            char[] delim = { '(',')' };
+            int soluong;
+            //b1 kiem tra ton tai
+            for (int i = 0; i < lstBanh.Items.Count; i++)
+            {
+                string itemText = lstBanh.Items[i].Text; 
+                if (itemText.Contains(ddlBanh.SelectedItem.Text))
+                {
+                    // xu lý cong don luong
+                    string[] arr = itemText.Split(delim);
+                    soluong = int.Parse(txtSoLuong.Text) + int.Parse(arr[1]);
+                    //thay the itemtai vi tri i
+                    lstBanh.Items[i].Text = $"{ddlBanh.SelectedItem.Text} ({soluong})";
+                    checkExist = true;
+                    break;
+                }
+            }
+            // b2
+            if (!checkExist)
+            {
+                string data = $"{ddlBanh.SelectedItem.Text} ({txtSoLuong.Text})";
+                lstBanh.Items.Add(data);
+            }
+            
         }
 
         protected void btnXoa_Click(object sender, EventArgs e)
@@ -38,6 +61,34 @@ namespace Lab02
                     lstBanh.Items.RemoveAt(i);  
                 }
             }
+        }
+
+        protected void btnIn_Click(object sender, EventArgs e)
+        {
+            string kq = "";
+            //b1. thu nhap thong tin
+            kq += "<h2 class='text-center'> HÓA ĐƠN ĐẶT HÀNG </h2>";
+            kq += "<div class='border border-primary p-2'>";
+            kq += "Khách hàng: <i>" + txtKH.Text + "</i><br>";
+            kq += "Địa chỉ: <i>" + txtDiaChi.Text + "</i><br>";
+            kq += "Mã số thuế: <i>" + txtMST.Text + "</i><br>";
+
+            kq += "<b> Đặt các loại bánh sau:</b>";
+            kq += "<table class='table table-bordered'>";
+            char[] delim = { '(',')' };
+            foreach (ListItem item in lstBanh.Items)
+            {
+                string[] arr = item.Text.Split(delim);
+                kq += "<tr>";
+                kq += $"<td> { arr[0] } </td> <td> {arr[1]} </td>";
+                kq += "</tr>";
+            }
+
+            kq += "</table>";
+            kq += "</div>";
+
+            //2. gui thong tin ve client
+            lbKetQua.Text = kq;
         }
     }
 }
