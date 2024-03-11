@@ -17,7 +17,7 @@ namespace Lab02
                 ddlBanh.Items.Add(new ListItem("Bánh bao", "01"));
                 ddlBanh.Items.Add(new ListItem("Bánh cam", "02"));
                 ddlBanh.Items.Add(new ListItem("Bánh mì", "03"));
-                ddlBanh.Items.Add(new ListItem("Bánh xe", "04"));
+                ddlBanh.Items.Add(new ListItem("Bánh ú", "04"));
             }
         }
 
